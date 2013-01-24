@@ -19,5 +19,11 @@ module Livetask
       end
     end
 
+    def get_last_changed(jid)
+      Sidekiq.redis do |conn|
+        Time.at(conn.zscore("livetask-processes", jid)).to_datetime
+      end
+    end
+
   end
 end
