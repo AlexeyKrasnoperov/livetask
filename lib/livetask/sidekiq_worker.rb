@@ -1,15 +1,25 @@
 module Livetask
   module SidekiqWorker
 
-    def set_progress(n)
-      register_process(@jid)
+    def set_progress(progress)
+      return false unless @jid
+      register_task(@jid)
       Sidekiq.redis do |conn|
-        conn.set("livetask-#{@jid}-progress", n)
+        conn.hset("livetask-#{@jid}-info", "progress", progress)
+      end
+    end
+
+    def set_status(status)
+      return false unless @jid
+      register_task(@jid)
+      Sidekiq.redis do |conn|
+        conn.hset("livetask-#{@jid}-info", "status", status)
       end
     end
 
     def add_to_log(string)
-      register_process(@jid)
+      return false unless @jid
+      register_task(@jid)
       Sidekiq.redis do |conn|
         string = "[#{Time.now}] #{string}"
         string = "\n#{string}" if conn.get("livetask-#{jid}-log")
@@ -18,9 +28,9 @@ module Livetask
     end
 
     private
-    def register_process(jid)
+    def register_task(jid)
       Sidekiq.redis do |conn|
-        conn.zadd("livetask-processes", Time.now.to_i, jid.to_s)
+        conn.zadd("livetask-tasks", Time.now.to_i, jid.to_s)
       end
     end
 
