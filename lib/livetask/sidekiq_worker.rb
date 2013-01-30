@@ -21,9 +21,7 @@ module Livetask
       return false unless @jid
       register_task(@jid)
       Sidekiq.redis do |conn|
-        string = "[#{Time.now}] #{string}"
-        string = "\n#{string}" if conn.get("livetask-#{jid}-log")
-        conn.append("livetask-#{@jid}-log", string)
+        conn.zadd("livetask-#{@jid}-log", Time.now.to_i, "#{Time.now.to_i.to_s[-5..-1]}#{string}")
       end
     end
 

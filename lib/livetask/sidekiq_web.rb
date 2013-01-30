@@ -24,9 +24,15 @@ module Livetask
     end
 
     def get_log(jid)
+      log_array = []
       Sidekiq.redis do |conn|
-        conn.get("livetask-#{jid}-log")
+        log_array = conn.zrevrangebyscore("livetask-#{jid}-log", '+inf', 0, :with_scores => true)
       end
+      log = ""
+      log_array.each do |line|
+        log += "#{Time.at(line.last)} #{line.first[5..-1]}\n"
+      end
+      log
     end
 
     def get_last_changed_at(jid)
