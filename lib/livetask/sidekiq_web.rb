@@ -11,6 +11,12 @@ module Livetask
       end
     end
 
+    def get_task_name(jid)
+      Sidekiq.redis do |conn|
+        conn.hget("livetask-#{jid}-info", "name")
+      end
+    end
+
     def get_progress(jid)
       Sidekiq.redis do |conn|
         conn.hget("livetask-#{jid}-info", "progress")

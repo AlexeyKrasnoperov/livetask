@@ -1,6 +1,14 @@
 module Livetask
   module SidekiqWorker
 
+    def set_task_name(name)
+      return false unless @jid
+      register_task(@jid)
+      Sidekiq.redis do |conn|
+        conn.hset("livetask-#{@jid}-info", "name", name)
+      end
+    end
+
     def set_progress(progress)
       return false unless @jid
       register_task(@jid)
