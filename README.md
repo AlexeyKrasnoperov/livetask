@@ -73,6 +73,10 @@ If you want to limit returned log, you can set 'from' and 'to' limits
 ```ruby
     get_progress(task_id)
 ```
+##### Last changed at
+```ruby
+    get_last_changed_at(task_id)
+```
 
 ## Contributing
 
