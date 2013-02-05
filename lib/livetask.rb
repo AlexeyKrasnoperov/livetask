@@ -1,7 +1,6 @@
 require "livetask/version"
-require "livetask/sidekiq_web"
-require "livetask/sidekiq_worker"
+require "livetask/sidekiq/web"
+require "livetask/sidekiq/worker"
 
 module Livetask
-  # Your code goes here...
 end

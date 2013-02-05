@@ -4,7 +4,7 @@ require File.expand_path('../lib/livetask/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Alexey Krasnoperov"]
   gem.email         = ["Alexey.Krasnoperov@gmail.com"]
-  gem.description   = %q{Live broadcast from a background job}
+  gem.description   = %q{Live broadcast from a background jobs}
   gem.summary       = %q{Gem that displays real-time progress of background job on your page}
   gem.homepage      = ""
 
