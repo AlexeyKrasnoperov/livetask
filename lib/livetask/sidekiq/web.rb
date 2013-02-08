@@ -44,7 +44,7 @@ module Livetask
 
       def get_last_changed_at(jid)
         ::Sidekiq.redis do |conn|
-          Time.at(conn.zscore("livetask-tasks", jid)).to_datetime
+          Time.at(conn.zscore("livetask-tasks", jid))
         end
       end
 
